@@ -6,8 +6,8 @@ const finale = require('finale-rest');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
 
 const oktaJwtVerifier = new OktaJwtVerifier({
-    clientId: '0oagrv82uRw9xGlga4x6',
-    issuer: 'https://{yourOktaDomain}/oauth2/default'
+    clientId: process.env.CLIENTID,
+    issuer: process.env.ISSUER
 });
 
 let app = express();
