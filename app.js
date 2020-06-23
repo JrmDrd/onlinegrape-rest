@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const Sequelize = require('sequelize');
 const finale = require('finale-rest');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
+require('dotenv').config();
 
 const oktaJwtVerifier = new OktaJwtVerifier({
     clientId: process.env.CLIENTID,
@@ -22,7 +23,7 @@ app.use((req, res, next) => {
     }
     let parts = req.headers.authorization.trim().split(' ');
     let accessToken = parts.pop();
-    oktaJwtVerifier.verifyAccessToken(accessToken)
+    oktaJwtVerifier.verifyAccessToken(accessToken, 'api://default')
         .then(jwt => {
             req.user = {
                 uid: jwt.claims.uid,
@@ -36,7 +37,7 @@ app.use((req, res, next) => {
 // For ease of this tutorial, we are going to use SQLite to limit dependencies
 let database = new Sequelize({
     dialect: 'sqlite',
-    storage: './test.sqlite'
+    storage: './wine.sqlite'
 });
 
 // Define our Post model
